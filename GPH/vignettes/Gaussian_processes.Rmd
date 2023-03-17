@@ -1,0 +1,78 @@
+---
+title: "Gaussian Processes"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Gaussian Processes}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(GPH)
+```
+
+This is the introduction to the package "Gaussian processes" where some example applications will be covered
+
+Lets start off with the Bayesian Model Selection:
+
+With this we can calculate hyperparameter which we can use to calculate the best guess of a function + the range in which we expect our functions.
+
+We can use it the following:
+
+```{r}
+my_data <- rnorm(100, mean = 5, sd = 2)
+model1 <- c(4, 1.5)
+model2 <- c(5.5, 2.5)
+models <- list(model1, model2)
+result <- bayesian_model_selection(my_data, models)
+```
+
+Where we receive a list containing the best model and it's corresponding BIC value. 
+
+Now looking at the Weight Space View Algorithm:
+
+We are in a situation where we have a possibility distribution over functions and use this algorithm to fit the distribution to the new points 
+
+```{r}
+X <- matrix(c(1, 2, 1, 1, 0, 2, 1, 1, 1), ncol = 3)
+y <- c(3, 2, 1)
+w <- weight_space_view(X, y)
+print(w)
+```
+
+We create a matrix X and a vector y of training examples and labels. We then call the weight_space_view function with these arguments to get the weight vector w. 
+
+· Following is an introduction to the covariance function. We won't cover all of them since it would imply to take care of 4 functions + 4 plot functions and since the usage doesn't really differ in each for each of them we will cover 1 covariance function and 1 plot function
+
+The covariance functions contain all assumptions towards the form of the function which we model (for example a default distribution). This shall show the usage of the linear covariance function which the implemented in the package
+
+```{r}
+x <- c(1, 2, 3, 4, 5)
+y <- c(2, 4, 6, 8, 10)
+linear_covariance(x,y)
+```
+
+We can also plot the posterior covariance with the corresponding plot functions. For example we can plot our values for the post linear covariance like following 
+
+```{r}
+set.seed(123)
+n <- 50
+X <- runif(n)
+y <- 2*X + rnorm(n)
+alpha <- 0.01
+sigma_squared <- 1
+beta <- seq(-5, 5, length.out = 100)
+
+plot_posterior_linear_covariance(X, y, alpha, beta, sigma_squared)
+```
+
+· The shiny apps allow to generate interactive plots. This seems very self exploratory. The corresponding post posterior covariance plots will be plotted and it is possible to set data by interacting. For the squared exponential we can call the shiny app like
+
+```{r}
+shinySquaredExp()
+```
+
+A result will not be returned so to save the results of certain data it is recommended to use the plot functions/ covariance functions themselves.

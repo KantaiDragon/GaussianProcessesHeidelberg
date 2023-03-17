@@ -1,0 +1,15 @@
+Package: GPH
+Type: Package
+Title: Gaussian Processes
+Version: 0.1.0
+Author: Mert Kaya
+Maintainer: <kaya.mert0000@gmail.com>
+Description: Bayesian Model Selection, Weight Space View, 4 Covariance Functions (const,lin,pol,squaredEx)
+  + plots + shinyapps
+License: 
+Encoding: UTF-8
+LazyData: true
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
